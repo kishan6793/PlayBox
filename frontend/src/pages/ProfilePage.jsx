@@ -5,7 +5,7 @@ import useAPI from "../hooks/useAPI";
 
 //   useEffect(() => {
 //     const fetchData = async () => {
-//       const results = await GET("/");
+//       const results = await GET("/login");
 //       console.log(results);
 //     };
 //     fetchData();
