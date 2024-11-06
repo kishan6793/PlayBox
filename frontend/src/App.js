@@ -4,6 +4,9 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminDeshboard from "./pages/AdminDeshboard";
 
+import Form from './pages/Formpage';
+import './CSS/Form.css';
+import Formpage from "./pages/Formpage";
 
 export default function App() {
   return (
@@ -12,7 +15,13 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin-deshboard" element={<AdminDeshboard />} />
+        <Route path="/form" element={<Formpage />} />
       </Routes>
+
+      <div className="App">
+      {/* < /> */}
+      </div>
+
     </>
   );
 }
