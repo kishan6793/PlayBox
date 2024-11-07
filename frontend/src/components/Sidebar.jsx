@@ -23,12 +23,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import PersonIcon from "@mui/icons-material/Person";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
+import { useNavigate } from "react-router-dom";
 
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
 const drawerWidth = 250;
 
 function Sidebar({ onPageChange }) {
+  const navigate = useNavigate();
+
   return (
     <Drawer
       variant="permanent"
@@ -135,7 +138,7 @@ function Sidebar({ onPageChange }) {
 
         <ListItem
           button
-          onClick={() => onPageChange("Menu")}
+          onClick={() => navigate("/menu")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
