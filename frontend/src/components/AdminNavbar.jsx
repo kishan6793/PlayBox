@@ -16,7 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-function AdminNavbar() {
+function AdminNavbar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -130,7 +130,7 @@ function AdminNavbar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Hello, Tony Stark
+            {props.text}
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
@@ -140,9 +140,11 @@ function AdminNavbar() {
               aria-label="show 4 new mails"
               color="inherit"
             >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
+              {props.MailIcon && <Badge badgeContent={4} color="error">
+                
+               {props.MailIcon && <MailIcon />}
+
+              </Badge>}
             </IconButton>
             <IconButton
               size="large"
@@ -150,7 +152,7 @@ function AdminNavbar() {
               color="inherit"
             >
               <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+                {props.NotificationsIcon && <NotificationsIcon />}
               </Badge>
             </IconButton>
             <IconButton
@@ -162,7 +164,7 @@ function AdminNavbar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              {props.AccountCircle && <AccountCircle />}
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

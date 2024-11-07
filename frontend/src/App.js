@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminDeshboard from "./pages/AdminDeshboard";
+import MenuPage from "./pages/MenuPage"
 
 import './CSS/Form.css';
 import Formpage from "./pages/Formpage";
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin-deshboard" element={<AdminDeshboard />} />
         <Route path="/form" element={<Formpage />} />
+        <Route path="/menu" element={<MenuPage />} />
       </Routes>
 
       <div className="App">
