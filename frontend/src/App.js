@@ -6,6 +6,7 @@ import AdminDeshboard from "./pages/AdminDeshboard";
 import MenuPage from "./pages/MenuPage"
 
 import Formpage from "./pages/Formpage";
+import Platform from "./components/plateform";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/admin-deshboard" element={<AdminDeshboard />} />
         <Route path="/form" element={<Formpage />} />
         <Route path="/menu" element={<MenuPage />} />
+        <Route path="/platform" element={<Platform />} />
       </Routes>
 
       <div className="App">
