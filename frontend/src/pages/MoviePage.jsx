@@ -3,7 +3,7 @@ import { Box, CssBaseline } from "@mui/material";
 
 import Sidebar from "../components/Sidebar";
 import Deshboard from "../components/Deshboard";
-import MoviePage from "../components/MoviePage";
+import Movie from "../components/Movie";
 import AdminNavbar from "../components/AdminNavbar";
 
 function AdminDeshboard() {
@@ -21,7 +21,7 @@ function AdminDeshboard() {
     <div>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <Sidebar onPageChange={handlePageChange} />{" "}
+        {/* <Sidebar onPageChange={handlePageChange} />{" "} */}
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
           <AdminNavbar
             text={text}
@@ -29,7 +29,9 @@ function AdminDeshboard() {
             NotificationsIcon={NotificationsIcon}
             AccountCircle={AccountCircle}
           />
-          <MoviePage/>
+          <Box sx={{ marginLeft: "258px", width: "83%" }}>
+            <Movie />
+          </Box>
         </Box>
       </Box>
     </div>

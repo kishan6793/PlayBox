@@ -34,7 +34,7 @@ const StyledTableRow = styled(TableRow)({
   },
 });
 
-const MoviesPage = () => {
+const MoviePage = () => {
   const movies = [
     {
       name: "Singhm return",
@@ -62,16 +62,15 @@ const MoviesPage = () => {
     },
   ];
 
+  const [open, setOpen] = React.useState(false);
 
-   const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-   const handleClickOpen = () => {
-     setOpen(true);
-   };
-
-   const handleClose = () => {
-     setOpen(false);
-   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -148,4 +147,4 @@ const MoviesPage = () => {
   );
 };
 
-export default MoviesPage;
+export default MoviePage;
