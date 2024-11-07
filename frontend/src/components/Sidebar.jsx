@@ -60,7 +60,7 @@ function Sidebar({ onPageChange }) {
       <List>
         <ListItem
           button
-          onClick={() => onPageChange("Dashboard")}
+          onClick={() => navigate("/dashboard")}
           sx={{
             "&:hover": {
               backgroundColor: "blue", // Blue background on hover
@@ -76,7 +76,7 @@ function Sidebar({ onPageChange }) {
 
         <ListItem
           button
-          onClick={() => onPageChange("Users")}
+          onClick={() => navigate("/useres")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -92,7 +92,7 @@ function Sidebar({ onPageChange }) {
 
         <ListItem
           button
-          onClick={() => onPageChange("Movies")}
+          onClick={() => navigate("/movies")}
           sx={{ "&:hover": { backgroundColor: "blue", cursor: "pointer" } }}
         >
           <ListItemIcon sx={{ color: "white" }}>
@@ -103,7 +103,7 @@ function Sidebar({ onPageChange }) {
 
         <ListItem
           button
-          onClick={() => onPageChange("Web Series")}
+          onClick={() => navigate("/webseries")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -122,7 +122,7 @@ function Sidebar({ onPageChange }) {
 
         <ListItem
           button
-          onClick={() => onPageChange("Languages")}
+          onClick={() => navigate("/languages")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -154,8 +154,8 @@ function Sidebar({ onPageChange }) {
 
         <ListItem
           button
-          onClick={() => onPageChange("Packages")}
-          sx={{
+          onClick={() => navigate("/packages")}
+          sx={{ 
             "&:hover": {
               backgroundColor: "blue",
               cursor: "pointer",

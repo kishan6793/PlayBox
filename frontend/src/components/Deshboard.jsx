@@ -10,6 +10,7 @@ import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import GroupIcon from "@mui/icons-material/Group";
+import Sidebar from "./Sidebar";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -189,7 +190,7 @@ function Dashboard() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu} */}
-
+      <Sidebar/>{" "}
       <Box sx={{ m: "20px" }}>
         <Typography variant="h4">Analytics</Typography>
         <Grid container spacing={2} sx={{ mt: 2 }}>

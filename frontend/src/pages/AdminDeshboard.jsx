@@ -22,15 +22,14 @@ function AdminDeshboard() {
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Sidebar onPageChange={handlePageChange} />{" "}
-        <Box sx={{ display: "flex",flexDirection:"column",width:"100%" }}>
-          <AdminNavbar text={text} MailIcon={MailIcon} NotificationsIcon={NotificationsIcon} AccountCircle={AccountCircle} />
-
-          {/* Pass handlePageChange as prop */}
-          {/* Conditionally render the Dashboard or MoviesPage component */}
-          <Box sx={{ flexGrow: 1 }}>
-            {selectedPage === "Dashboard" && <Deshboard />}
-            {selectedPage === "Movies" && <MoviePage />}
-          </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+          <AdminNavbar
+            text={text}
+            MailIcon={MailIcon}
+            NotificationsIcon={NotificationsIcon}
+            AccountCircle={AccountCircle}
+          />
+          <MoviePage/>
         </Box>
       </Box>
     </div>
