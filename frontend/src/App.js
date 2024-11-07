@@ -5,7 +5,6 @@ import ProfilePage from "./pages/ProfilePage";
 import AdminDeshboard from "./pages/AdminDeshboard";
 import MenuPage from "./pages/MenuPage"
 
-import './CSS/Form.css';
 import Formpage from "./pages/Formpage";
 
 export default function App() {
