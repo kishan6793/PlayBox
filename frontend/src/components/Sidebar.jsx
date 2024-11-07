@@ -24,9 +24,11 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import PersonIcon from "@mui/icons-material/Person";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 
+import { Link } from "react-router-dom"; 
+
 const drawerWidth = 250;
 
-function Sidebar() {
+function Sidebar({ onPageChange }) {
   return (
     <Drawer
       variant="permanent"
@@ -55,6 +57,7 @@ function Sidebar() {
       <List>
         <ListItem
           button
+          onClick={() => onPageChange("Dashboard")}
           sx={{
             "&:hover": {
               backgroundColor: "blue", // Blue background on hover
@@ -70,6 +73,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => onPageChange("Users")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -85,12 +89,8 @@ function Sidebar() {
 
         <ListItem
           button
-          sx={{
-            "&:hover": {
-              backgroundColor: "blue",
-              cursor: "pointer",
-            },
-          }}
+          onClick={() => onPageChange("Movies")}
+          sx={{ "&:hover": { backgroundColor: "blue", cursor: "pointer" } }}
         >
           <ListItemIcon sx={{ color: "white" }}>
             <LiveTvIcon />
@@ -100,6 +100,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => onPageChange("Web Series")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -118,6 +119,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => onPageChange("Languages")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -133,6 +135,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => onPageChange("Menu")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -148,6 +151,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => onPageChange("Packages")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
