@@ -23,10 +23,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import PersonIcon from "@mui/icons-material/Person";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
+import { useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 
 const drawerWidth = 250;
 
-function Sidebar() {
+function Sidebar({ onPageChange }) {
+  const navigate = useNavigate();
+
   return (
     <Drawer
       variant="permanent"
@@ -55,6 +60,7 @@ function Sidebar() {
       <List>
         <ListItem
           button
+          onClick={() => navigate("/dashboard")}
           sx={{
             "&:hover": {
               backgroundColor: "blue", // Blue background on hover
@@ -70,6 +76,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => navigate("/useres")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -85,12 +92,8 @@ function Sidebar() {
 
         <ListItem
           button
-          sx={{
-            "&:hover": {
-              backgroundColor: "blue",
-              cursor: "pointer",
-            },
-          }}
+          onClick={() => navigate("/movies")}
+          sx={{ "&:hover": { backgroundColor: "blue", cursor: "pointer" } }}
         >
           <ListItemIcon sx={{ color: "white" }}>
             <LiveTvIcon />
@@ -100,6 +103,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => navigate("/webseries")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -118,6 +122,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => navigate("/languages")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -133,6 +138,7 @@ function Sidebar() {
 
         <ListItem
           button
+          onClick={() => navigate("/menu")}
           sx={{
             "&:hover": {
               backgroundColor: "blue",
@@ -148,7 +154,8 @@ function Sidebar() {
 
         <ListItem
           button
-          sx={{
+          onClick={() => navigate("/packages")}
+          sx={{ 
             "&:hover": {
               backgroundColor: "blue",
               cursor: "pointer",

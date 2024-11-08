@@ -1,0 +1,160 @@
+/* General Container */
+.platform-container {
+    width: 100%;
+    background-color: #0d0e19;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    align-items: center;
+    background-color: #1b1c29;
+  }
+  
+  .navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .navbar .highlight {
+    color: #00aaff;
+  }
+  
+  .navbar nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar nav ul li {
+    cursor: pointer;
+  }
+  
+  .user-avatar img {
+    width: 40px;
+    border-radius: 50%;
+  }
+  
+  /* Streaming Services */
+  .services-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #12131f;
+    flex-wrap: wrap;
+  }
+  
+  .service {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .service:hover {
+    background-color: #555;
+  }
+  
+  /* Movie Section */
+  .movie-section {
+    padding: 20px;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .section-header h2 {
+    font-size: 24px;
+  }
+  
+  .see-all {
+    background-color: #00aaff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .movie-list {
+    display: flex;
+    overflow-x: scroll;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .movie-item {
+    min-width: 150px;
+    text-align: center;
+  }
+  
+  .movie-item img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #1b1c29;
+    padding: 40px 20px;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .footer-links ul,
+  .support ul {
+    list-style: none;
+  }
+  
+  .footer-links ul li,
+  .support ul li {
+    padding: 5px 0;
+    cursor: pointer;
+  }
+  
+  .connect-with-us .social-icons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .icon-facebook,
+  .icon-linkedin,
+  .icon-instagram,
+  .icon-twitter {
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  @media (max-width: 768px) {
+    .services-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .movie-list {
+      flex-wrap: wrap;
+    }
+  
+    .footer-content {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
