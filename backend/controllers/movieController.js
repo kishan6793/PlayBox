@@ -103,7 +103,58 @@ const updateMovie = async (req, res) => {
   }
 };
 
+// Get all the available movies
+const getAllMovies = async (req, res) => {
+  try {
+    // Get the user tier from the cookie
+    const userTier = req.user.tier;
+
+    if (!userTier) {
+      return res.status(400).json({ error: "User tier not found in cookie" });
+    }
+
+    // Find movies that match the user's tier or a higher tier
+    // This assumes a priority where 'platinum' > 'gold' > 'silver'
+    let movies;
+    if (userTier === "platinum") {
+      movies = await Movie.find({
+        tier: { $in: ["platinum", "gold", "silver"] },
+      });
+    } else if (userTier === "gold") {
+      movies = await Movie.find({ tier: { $in: ["gold", "silver"] } });
+    } else if (userTier === "silver") {
+      movies = await Movie.find({ tier: "silver" });
+    } else {
+      return res.status(400).json({ error: "Invalid tier in cookie" });
+    }
+    // console.log("movies", movies);
+    const data = movies;
+    res.status(202).send(data);
+  } catch (error) {
+    // console.log("error", error);
+    res.status(500).send(error.message);
+  }
+};
+
+// Get any Perticular movies using movie Id
+const getSpecificMovie = async (req, res) => {
+  try {
+    // access movie id from url parameter
+    const { id } = req.params;
+    const specificMovie = await Movie.findById(id);
+    if (!specificMovie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    res.json(specificMovie);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
     createMovie,
-    updateMovie
+    updateMovie,
+    getAllMovies,
+    getSpecificMovie
   };
