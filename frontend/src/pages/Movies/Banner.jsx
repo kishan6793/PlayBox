@@ -2,38 +2,76 @@ import React, { useState, useEffect, useRef } from "react";
 import "../../CSS/Banner.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import img1 from "../../assets/img1.jpg";
-import img2 from "../../assets/img2.jpg";
-import img3 from "../../assets/img3.jpg";
-import img4 from "../../assets/img4.jpg";
-import img5 from "../../assets/img5.jpg";
-
-// Array of banner images with associated text and IDs for linking
 const bannerImages = [
-  { image: img1, text: "The Wild Robot", id: "6734e849333089256fc61f6f" },
   {
-    image: img2,
+    image:
+      "https://image.tmdb.org/t/p/original//v9acaWVVFdZT5yAU7J2QjwfhXyD.jpg",
+    text: "The Wild Robot",
+    id: "6739c12831d269c52a1fca2c",
+  },
+  {
+    image:
+      "https://image.tmdb.org/t/p/original//3V4kLQg0kSqPLctI5ziYWabAZYF.jpg",
     text: "Venom: The Last Dance",
-    id: "6734eaa03e0de084f30eb063",
+    id: "6739c36d31d269c52a1fca71",
   },
-  { image: img3, text: "Terrifier3", id: "6734ed1d3e0de084f30eb064" },
   {
-    image: img4,
-    text: "Apocalypse Z: The Beginning of the End",
-    id: "6735ea279a66842cd3a9382b",
+    image:
+      "https://image.tmdb.org/t/p/original//18TSJF1WLA4CkymvVUcKDBwUJ9F.jpg",
+    text: "Terrifier3",
+    id: "6739c56531d269c52a1fca94",
   },
-  { image: img5, text: "Deadpool & Wolverine", id: "6735cf6cf47052b2e784a17f" },
+  {
+    image:
+      "https://image.tmdb.org/t/p/original//2fxnTXr8NwyTFkunkimJkGkhqfy.jpg",
+    text: "Apocalypse Z: The Beginning of the End",
+    id: "6739c47331d269c52a1fca86",
+  },
+  {
+    image:
+      "https://image.tmdb.org/t/p/original//dvBCdCohwWbsP5qAaglOXagDMtk.jpg",
+    text: "Deadpool & Wolverine",
+    id: "6739c71d31d269c52a1fcab0",
+  },
 ];
 
-const Banner = () => {
-  const [currentIndex, setCurrentIndex] = useState(1); // Current index of the displayed slide
-  const [isTransitioning, setIsTransitioning] = useState(false); // State to manage slide transition
-  const [slides, setSlides] = useState([]); // Array of slides with prepended and appended slides for looping
-  const autoScrollInterval = useRef(null); // Reference for the auto-scroll interval
-  const slideRef = useRef(null); // Reference to the slide container
-  const lastInteractionTime = useRef(Date.now()); // Track last interaction time to reset auto-scroll
+const aspectRatios = {
+  mobile: "56.25%", // 16:9 aspect ratio for mobile
+  tablet: "46.875%", // 15:7 aspect ratio for tablet
+  desktop: "41.667%", // 12:5 aspect ratio for desktop
+};
 
-  // Initialize slides with looping elements at the beginning and end
+const Banner = () => {
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [slides, setSlides] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const autoScrollInterval = useRef(null);
+  const slideRef = useRef(null);
+  const lastInteractionTime = useRef(Date.now());
+  const [userinfo, setUserinfo] = useState(false);
+  useEffect(() => { 
+    if(window.localStorage.getItem("userInfo")){
+      setUserinfo(true);
+    }
+    else
+    {
+      setUserinfo(false);
+    }
+  }, []);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     setSlides([
       bannerImages[bannerImages.length - 1],
@@ -42,7 +80,6 @@ const Banner = () => {
     ]);
   }, []);
 
-  // Start auto-scroll with a 7-second interval
   const startAutoScroll = () => {
     if (autoScrollInterval.current) {
       clearInterval(autoScrollInterval.current);
@@ -57,7 +94,6 @@ const Banner = () => {
     }, 7000);
   };
 
-  // Start auto-scroll on mount and clean up on unmount
   useEffect(() => {
     startAutoScroll();
     return () => {
@@ -67,11 +103,10 @@ const Banner = () => {
     };
   }, []);
 
-  // Handle slide change based on direction (next/prev)
   const handleSlideChange = (direction) => {
-    if (isTransitioning) return; // Prevent slide change during transition
+    if (isTransitioning) return;
 
-    lastInteractionTime.current = Date.now(); // Reset last interaction time
+    lastInteractionTime.current = Date.now();
     setIsTransitioning(true);
 
     if (direction === "next") {
@@ -81,10 +116,6 @@ const Banner = () => {
     }
   };
 
-  const handleNext = () => handleSlideChange("next"); // Navigate to the next slide
-  const handlePrev = () => handleSlideChange("prev"); // Navigate to the previous slide
-
-  // Handle transition end to loop slides seamlessly
   const handleTransitionEnd = () => {
     if (currentIndex === 0) {
       setIsTransitioning(false);
@@ -99,66 +130,103 @@ const Banner = () => {
 
   return (
     <div
-      className="relative h-screen w-full overflow-hidden bg-black"
-      style={{ marginTop: "61px", height: "660px" }} // Adjusting margin and height to match the design
+      className="relative w-full overflow-hidden bg-black"
+      style={{ marginTop: "65px"}}
     >
-      {/* Slide container */}
+      {/* Responsive container with dynamic padding-top based on screen size */}
       <div
-        ref={slideRef}
-        className="relative flex h-full w-full"
+        className="relative w-full"
         style={{
-          transform: `translateX(-${currentIndex * 100}%)`, // Translate based on the current index
-          transition: isTransitioning ? "transform 500ms ease-in-out" : "none", // Smooth transition when sliding
+          paddingTop: isMobile
+            ? aspectRatios.mobile
+            : window.innerWidth < 1024
+            ? aspectRatios.tablet
+            : aspectRatios.desktop,
+            
         }}
-        onTransitionEnd={handleTransitionEnd} // Handle end of transition for seamless looping
       >
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="relative h-full w-full shrink-0 bg-cover bg-center" // Slide background styles
-            style={{
-              backgroundImage: `url(${slide.image})`,
-            }}
-          >
-            {/* Gradient overlay for better text visibility */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-            {/* Slide content */}
-            <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-center">
-              <h1 className="mb-4 text-4xl md:text-6xl font-bold text-white tracking-tight">
-                {slide.text}
-              </h1>
-              {slide.id && (
-                <a
-                  href={`/movies/${slide.id}`} // Link to movie details
-                  className="inline-flex items-center px-6 py-3 text-sm font-medium text-black bg-white rounded-lg hover:bg-white/90 transition-colors duration-300"
-                >
-                  See More
-                </a>
-              )}
+        <div
+          ref={slideRef}
+          className="absolute inset-0 flex w-full h-full"
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+            transition: isTransitioning
+              ? "transform 500ms ease-in-out"
+              : "none",
+          }}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {slides.map((slide, index) => (
+            <div key={index} className="relative w-full h-full shrink-0">
+              {/* Image container with object-fit */}
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${slide.image})`,
+                }}
+              />
+
+              {/* Gradient overlays */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
+
+              {/* Content container */}
+              <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end p-4 md:p-8 lg:p-12">
+                <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white text-center tracking-tight mb-4 max-w-4xl">
+                  {slide.text}
+                </h1>
+                {slide.id && (
+                  <a
+                    href={userinfo?`/movies/${slide.id}`:"/login"}
+                    className="inline-flex items-center px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-medium text-black bg-white rounded-lg hover:bg-white/90 transition-colors duration-300 shadow-lg hover:shadow-xl"
+                  >
+                    See More
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        {/* Navigation buttons with responsive sizing and positioning */}
+        <button
+          onClick={() => handleSlideChange("prev")}
+          className="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 p-1.5 md:p-2 lg:p-3 rounded-full bg-black/30 text-white backdrop-blur-sm hover:bg-black/50 transition-colors duration-300 z-10"
+          aria-label="Previous slide"
+          disabled={isTransitioning}
+        >
+          <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8" />
+        </button>
+
+        <button
+          onClick={() => handleSlideChange("next")}
+          className="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 p-1.5 md:p-2 lg:p-3 rounded-full bg-black/30 text-white backdrop-blur-sm hover:bg-black/50 transition-colors duration-300 z-10"
+          aria-label="Next slide"
+          disabled={isTransitioning}
+        >
+          <ChevronRight className="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8" />
+        </button>
+
+        {/* Slide indicators */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+          {bannerImages.map((_, idx) => (
+            <button
+              key={idx}
+              className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all duration-300 ${
+                currentIndex === idx + 1
+                  ? "bg-white scale-110"
+                  : "bg-white/50 hover:bg-white/70"
+              }`}
+              onClick={() => {
+                setCurrentIndex(idx + 1);
+                setIsTransitioning(true);
+                lastInteractionTime.current = Date.now();
+              }}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
       </div>
-
-      {/* Previous button */}
-      <button
-        onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white backdrop-blur-sm hover:bg-black/50 transition-colors duration-300 z-10"
-        aria-label="Previous slide"
-        disabled={isTransitioning} // Disable button during slide transition
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
-
-      {/* Next button */}
-      <button
-        onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white backdrop-blur-sm hover:bg-black/50 transition-colors duration-300 z-10"
-        aria-label="Next slide"
-        disabled={isTransitioning} // Disable button during slide transition
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
     </div>
   );
 };
