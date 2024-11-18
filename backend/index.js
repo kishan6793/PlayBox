@@ -15,13 +15,13 @@ connectDB();
 
 const app = express();
 
-// Allow requests from frontend
+// Allow requests from frontend origin
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: ["http://localhost:5173"], // frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    credentials: true,  // This ensures cookies are sent and received
   })
 );
 
@@ -37,4 +37,5 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/genre", genreRoutes);
 app.use("/api/v1/movies", moviesRoutes);
 
+// Server Creation
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
