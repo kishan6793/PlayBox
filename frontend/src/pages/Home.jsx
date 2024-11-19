@@ -27,7 +27,7 @@ const Home = () => {
             {/* if user login so show this part */}
             <Banner />
             <MoviesContainerPage />
-            {/* Footer part Comes Here */}
+            <Footer />
           </>
         ) : (
           // if user not login so show this part
