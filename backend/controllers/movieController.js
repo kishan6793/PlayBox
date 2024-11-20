@@ -204,11 +204,95 @@ const deleteComment = async (req, res) => {
   }
 };
 
+//handle adding a review to a movie
+const movieReview = async (req, res) => {
+  try {
+    // Extract the comment from the request body
+    const { comment } = req.body;
+
+    // Find the movie by its ID from the request parameters
+    const movie = await Movie.findById(req.params.id);
+
+    if (movie) {
+      // Check if the user has already reviewed the movie
+      const alreadyReviewed = movie.reviews.find(
+        (r) => r.user.toString() === req.user._id.toString()
+      );
+
+      if (alreadyReviewed) {
+        res.status(400);
+        throw new Error("Movie already reviewed");
+      }
+
+      // Construct the new review object
+      const review = {
+        name: req.user.username, 
+        comment,                
+        user: req.user._id,     
+      };
+
+      // Add the new review to the movie's reviews array
+      movie.reviews.push(review);
+
+      // Update the number of reviews for the movie
+      movie.numReviews = movie.reviews.length;
+
+      // Save the updated movie document to the database
+      await movie.save();
+
+      res.status(201).json({ message: "Review Added" });
+    } else {
+      res.status(404);
+      throw new Error("Movie not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error.message);
+  }
+};
+
+//get the latest 10 movies accessible to the user based on their tier
+const getNewMovies = async (req, res) => {
+  try {
+    // Extract the user's subscription tier from the authenticated user object
+    const userTier = req.user.tier;
+
+    if (!userTier) {
+      return res.status(400).json({ error: "User tier not found" });
+    }
+
+    // Determine the tiers the user can access based on their current tier
+    let accessibleTiers;
+    if (userTier === "platinum") {
+      accessibleTiers = ["platinum", "gold", "silver"]; // Platinum users can access all tiers
+    } else if (userTier === "gold") {
+      accessibleTiers = ["gold", "silver"]; // Gold users can access gold and silver tiers
+    } else if (userTier === "silver") {
+      accessibleTiers = ["silver"]; // Silver users can only access silver tier
+    } else {
+      // If the tier is invalid, send a 400 response
+      return res.status(400).json({ error: "Invalid tier" });
+    }
+
+    // Fetch the latest 10 movies from the database that match the accessible tiers
+    const newMovies = await Movie.find({ tier: { $in: accessibleTiers } })
+      .sort({ createdAt: -1 }) // Sort movies by creation date in descending order
+      .limit(10); // Limit the result to the latest 10 movies
+
+    res.json(newMovies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 export {
     createMovie,
     updateMovie,
     getAllMovies,
     getSpecificMovie,
     deleteMovie,
-    deleteComment
+    deleteComment,
+    movieReview,
+    getNewMovies
   };
