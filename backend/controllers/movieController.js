@@ -204,7 +204,7 @@ const deleteComment = async (req, res) => {
   }
 };
 
-//handle adding a review to a movie
+// handle adding a review to a movie
 const movieReview = async (req, res) => {
   try {
     // Extract the comment from the request body
@@ -251,7 +251,7 @@ const movieReview = async (req, res) => {
   }
 };
 
-//get the latest 10 movies accessible to the user based on their tier
+// get the latest 10 movies accessible to the user based on their tier
 const getNewMovies = async (req, res) => {
   try {
     // Extract the user's subscription tier from the authenticated user object
@@ -285,6 +285,75 @@ const getNewMovies = async (req, res) => {
   }
 };
 
+// get the top 10 rated movies accessible to the user based on their tier
+const getTopMovies = async (req, res) => {
+  try {
+    // Extract the user's subscription tier from the authenticated user object
+    const userTier = req.user.tier;
+
+    if (!userTier) {
+      return res.status(400).json({ error: "User tier not found" });
+    }
+
+    // Determine the tiers the user can access based on their subscription tier
+    let accessibleTiers;
+    if (userTier === "platinum") {
+      accessibleTiers = ["platinum", "gold", "silver"]; // Platinum users can access all tiers
+    } else if (userTier === "gold") {
+      accessibleTiers = ["gold", "silver"]; // Gold users can access gold and silver tiers
+    } else if (userTier === "silver") {
+      accessibleTiers = ["silver"]; // Silver users can only access silver tier
+    } else {
+      return res.status(400).json({ error: "Invalid tier" });
+    }
+
+    // Fetch the top 10 rated movies within the accessible tiers
+    const topRatedMovies = await Movie.find({ tier: { $in: accessibleTiers } })
+      .sort({ rating: -1 }) // Sort movies by rating in descending order
+      .limit(10); // Limit to the top 10 movies
+
+    // Send the top-rated movies as the response
+    res.json(topRatedMovies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// get 10 random movies accessible to the user based on their tier
+const getRandomMovies = async (req, res) => {
+  try {
+    // Extract the user's subscription tier from the authenticated user object
+    const userTier = req.user.tier;
+
+    if (!userTier) {
+      return res.status(400).json({ error: "User tier not found" });
+    }
+
+    // Determine the tiers the user can access based on their subscription tier
+    let accessibleTiers;
+    if (userTier === "platinum") {
+      accessibleTiers = ["platinum", "gold", "silver"]; // Platinum users can access all tiers
+    } else if (userTier === "gold") {
+      accessibleTiers = ["gold", "silver"]; // Gold users can access gold and silver tiers
+    } else if (userTier === "silver") {
+      accessibleTiers = ["silver"]; // Silver users can only access silver tier
+    } else {
+      return res.status(400).json({ error: "Invalid tier" });
+    }
+
+    // Fetch 10 random movies from the accessible tiers
+    const randomMovies = await Movie.aggregate([
+      { $match: { tier: { $in: accessibleTiers } } }, // Match movies within accessible tiers
+      { $sample: { size: 10 } }, // Randomly sample 10 movies
+    ]);
+
+    // Send the random movies as the response
+    res.json(randomMovies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
 export {
     createMovie,
@@ -294,5 +363,7 @@ export {
     deleteMovie,
     deleteComment,
     movieReview,
-    getNewMovies
+    getNewMovies,
+    getTopMovies,
+    getRandomMovies
   };
