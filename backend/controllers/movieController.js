@@ -103,7 +103,112 @@ const updateMovie = async (req, res) => {
   }
 };
 
+// Get all the available movies
+const getAllMovies = async (req, res) => {
+  try {
+    // Get the user tier from the cookie
+    const userTier = req.user.tier;
+
+    if (!userTier) {
+      return res.status(400).json({ error: "User tier not found in cookie" });
+    }
+
+    // Find movies that match the user's tier or a higher tier
+    // This assumes a priority where 'platinum' > 'gold' > 'silver'
+    let movies;
+    if (userTier === "platinum") {
+      movies = await Movie.find({
+        tier: { $in: ["platinum", "gold", "silver"] },
+      });
+    } else if (userTier === "gold") {
+      movies = await Movie.find({ tier: { $in: ["gold", "silver"] } });
+    } else if (userTier === "silver") {
+      movies = await Movie.find({ tier: "silver" });
+    } else {
+      return res.status(400).json({ error: "Invalid tier in cookie" });
+    }
+    // console.log("movies", movies);
+    const data = movies;
+    res.status(202).send(data);
+  } catch (error) {
+    // console.log("error", error);
+    res.status(500).send(error.message);
+  }
+};
+
+// Get any Perticular movies using movie Id
+const getSpecificMovie = async (req, res) => {
+  try {
+    // access movie id from url parameter
+    const { id } = req.params;
+    const specificMovie = await Movie.findById(id);
+    if (!specificMovie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    res.json(specificMovie);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Delete a movie by its ID
+const deleteMovie = async (req, res) => {
+  try {
+    // Extract the movie ID from request parameters
+    const { id } = req.params;
+
+    // Find the movie by ID and delete it from the database
+    const deleteMovie = await Movie.findByIdAndDelete(id);
+
+    if (!deleteMovie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    res.json({success: true, message: "Movie Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({success: false, error: error.message });
+  }
+};
+
+// Delete a specific comment/review from a movie
+const deleteComment = async (req, res) => {
+  try {
+    // Extract the movie ID and review ID from the request body
+    const { movieId, reviewId } = req.body;
+
+    // Find the movie by ID in the database
+    const movie = await Movie.findById(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    const reviewIndex = movie.reviews.findIndex(
+      (r) => r._id.toString() === reviewId
+    );
+
+    if (reviewIndex === -1) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    // Remove the review from the movie's reviews array and update
+    movie.reviews.splice(reviewIndex, 1);
+    movie.numReviews = movie.reviews.length;
+
+    await movie.save();
+    res.json({ message: "Comment Deleted Successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
     createMovie,
-    updateMovie
+    updateMovie,
+    getAllMovies,
+    getSpecificMovie,
+    deleteMovie,
+    deleteComment
   };
