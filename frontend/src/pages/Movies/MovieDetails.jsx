@@ -206,7 +206,19 @@ const MovieDetails = () => {
           </div>
         </div>
 
-       
+        {/* Reviews Section */}
+        <div className="mt-16 bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
+          <MovieTabs
+            loadingMovieReview={loadingMovieReview}
+            userInfo={userInfo}
+            submitHandler={submitHandler}
+            rating={rating}
+            setRating={setRating}
+            comment={comment}
+            setComment={setComment}
+            movie={movie}
+          />
+        </div>
       </div>
     </div>
   );
