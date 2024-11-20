@@ -71,4 +71,28 @@ const removeGenre = asyncHandler(async (req, res) => {
   }
 });
 
-export { createGenre, updateGenre, removeGenre };
+// Controller to list all genres
+// This function uses the asyncHandler to catch any asynchronous errors and handle them properly
+const listGenres = asyncHandler(async (req, res) => {
+  try {
+    const all = await Genre.find({}); 
+    res.json(all);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error.message);
+  }
+});
+
+// Controller to read a single genre by its ID
+// This function uses the asyncHandler to catch any asynchronous errors and handle them properly
+const readGenre = asyncHandler(async (req, res) => {
+  try {
+    const genre = await Genre.findOne({ _id: req.params.id }); 
+    res.json(genre);
+  } catch (error) {
+    console.log(error); 
+    return res.status(400).json(error.message);
+  }
+});
+
+export { createGenre, updateGenre, removeGenre, listGenres, readGenre};
