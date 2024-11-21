@@ -74,7 +74,69 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+// Get all users from the database 
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
+// Get the profile of the currently authenticated user
+const getCurrentUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    // Return user details excluding sensitive information
+    res.json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      tier: user.tier, 
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found.");
+  }
+});
+
+// Update the profile of the currently authenticated user
+const updateCurrentUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    // Update user details based on request body or keep existing values
+    user.username = req.body.username || user.username;
+    user.email = req.body.email || user.email;
+
+    // Hash the new password if provided
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      user.password = hashedPassword;
+    }
+
+  
+    const updatedUser = await user.save();
+
+    // Return updated user details excluding sensitive information
+    res.json({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin, 
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+
 export {
   createUser,
   loginUser,
+  getAllUsers,
+  getCurrentUserProfile,
+  updateCurrentUserProfile,
 };
