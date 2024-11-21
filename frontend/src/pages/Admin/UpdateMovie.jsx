@@ -163,7 +163,7 @@ const UpdateMovie = () => {
 
       setLoading(true);
       const response = await axios.put(
-        `http://localhost:3000/api/v1/movies/update-movie/${id}`,
+        `https://playbox-5v09.onrender.com/api/v1/movies/update-movie/${id}`,
         formData,
         {
           withCredentials: true,
@@ -195,7 +195,7 @@ const UpdateMovie = () => {
       try {
         setLoading(true);
         const response = await axios.delete(
-          `http://localhost:3000/api/v1/movies/delete-movie/${id}`,
+          `https://playbox-5v09.onrender.com/api/v1/movies/delete-movie/${id}`,
           {
             withCredentials: true,
           }

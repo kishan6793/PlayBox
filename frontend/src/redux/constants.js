@@ -2,15 +2,15 @@
 export const BASE_URL = "";
 
 // URL for user-related API requests (e.g., user authentication, profile management)
-export const USERS_URL = "http://localhost:3000/api/v1/users";
+export const USERS_URL = "https://playbox-5v09.onrender.com";
 
 // URL for genre-related API requests (e.g., fetching genres, adding new genres)
-export const GENRE_URL = "http://localhost:3000/api/v1/genre";
+export const GENRE_URL = "https://playbox-5v09.onrender.com";
 
 // URL for movie-related API requests (e.g., CRUD operations for movies)
-export const MOVIE_URL = "http://localhost:3000/api/v1/movies";
+export const MOVIE_URL = "https://playbox-5v09.onrender.com";
 // Alternate version of the MOVIE_URL (commented out, can be used for relative paths)
 // export const MOVIE_URL = "/api/v1/movies";
 
 // URL for upload-related API requests (e.g., uploading files such as images)
-export const UPLOAD_URL = "http://localhost:3000/api/v1/upload";
+export const UPLOAD_URL = "https://playbox-5v09.onrender.com";
