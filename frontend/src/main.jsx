@@ -24,8 +24,8 @@ import AllMovies from "./pages/Movies/AllMovies.jsx";
 import MovieDetails from "./pages/Movies/MovieDetails.jsx";
 import AllComments from "./pages/Admin/AllComments.jsx";
 import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard.jsx";
-import TopMoviesPage from "./pages/Movies/TopMovies.jsx";
 import About from "./pages/Movies/About.jsx";
+import NotFound from "./pages/User/NotFound.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,9 +48,9 @@ const router = createBrowserRouter(
         <Route path="/admin/movies/update/:id" element={<UpdateMovie />} />
         <Route path="/admin/movies/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/movies/comments" element={<AllComments />} />
-        <Route path="/admin/movies/top" element={<TopMoviesPage />} />
       </Route>
 
+      <Route path="*" element={<NotFound />} />
     </Route>
   )
 );
