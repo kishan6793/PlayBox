@@ -74,7 +74,15 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const logoutCurrentUser = asyncHandler(async (req, res) => {
+  // Clear the JWT cookie by setting its value to an empty string
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
 
+  res.status(200).json({ message: "Logged out successfully" });
+});
 
 // Get all users from the database 
 const getAllUsers = asyncHandler(async (req, res) => {
@@ -136,6 +144,7 @@ const updateCurrentUserProfile = asyncHandler(async (req, res) => {
 export {
   createUser,
   loginUser,
+  logoutCurrentUser,
   getAllUsers,
   getCurrentUserProfile,
   updateCurrentUserProfile,
