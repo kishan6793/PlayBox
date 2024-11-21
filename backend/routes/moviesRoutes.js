@@ -11,7 +11,13 @@ import {
   createMovie,    
   updateMovie,    
   deleteMovie,    
-  deleteComment,  
+  deleteComment,
+  getAllMovies,
+  getSpecificMovie,
+  getNewMovies,
+  getTopMovies,
+  getRandomMovies,
+  movieReview
 } from "../controllers/movieController.js";
 
 // Middlewares
@@ -20,7 +26,19 @@ import {
   authorizeAdmin,  
 } from "../middlewares/authMiddleware.js";
 
+import checkId from "../middlewares/checkId.js";
 
+
+// Public Routes - Accessible to all authenticated users
+router.get("/all-movies", authenticate, getAllMovies);  // Get all movies, requires authentication
+router.get("/specific-movie/:id", getSpecificMovie);    // Get a specific movie by ID
+router.get("/new-movies", authenticate, getNewMovies);  // Get new movie releases, requires authentication
+router.get("/top-movies", authenticate, getTopMovies);  // Get top-rated movies, requires authentication
+router.get("/random-movies", authenticate, getRandomMovies); // Get random movie suggestions, requires authentication
+
+
+// Restricted Routes - Accessible to authenticated users
+router.post("/:id/reviews", authenticate, checkId, movieReview); // Add a review to a movie by ID, requires authentication
 
 
 // Admin routes - Admin authentication and admin authorization Requires
